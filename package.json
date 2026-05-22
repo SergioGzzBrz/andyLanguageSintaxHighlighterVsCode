@@ -1,8 +1,10 @@
 {
+  "publisher": "sergiogzz",
+  "version": "0.0.1",
+  "repository": "https://github.com/SergioGzzBrz/andyLanguageSintaxHighlighterVsCode",
   "name": "andy",
   "displayName": "Andy",
   "description": ".andy",
-  "version": "0.0.1",
   "engines": {
     "vscode": "^1.120.0"
   },
