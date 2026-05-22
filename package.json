@@ -1,0 +1,34 @@
+{
+  "name": "andy",
+  "displayName": "Andy",
+  "description": ".andy",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.120.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "andy",
+        "aliases": [
+          "andy",
+          "andy"
+        ],
+        "extensions": [
+          ".andy"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "andy",
+        "scopeName": "source.andy",
+        "path": "./syntaxes/andy.tmLanguage.json"
+      }
+    ]
+  }
+}

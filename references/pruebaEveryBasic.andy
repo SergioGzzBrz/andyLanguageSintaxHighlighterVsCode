@@ -1,0 +1,48 @@
+program main{
+	var a,i : int;
+	var b : bool;
+	var f : float;
+
+	function addIToA() {
+		begin;
+		a := a+i;
+		end;
+	}
+
+	begin;	
+		a := 2;
+		i := a +(3*2) + (1) + not a;
+		a++;
+		-a;
+		b = true and true;
+		b = false or true;
+		f = 2.21;
+		write("prueba if", 2, "ok");
+		write2("prueba if", 2, "ok");
+
+		if( a>b) then
+		{
+			i := 2;
+			write(a);
+		}else
+		{
+			a := 2;
+		}
+		if( a>b) then {
+			a :=0;
+		}
+		write("okok");
+
+		while (n>=1) do
+		{
+			x := x * n;
+			n--;
+		}
+
+		for (i:=1;i<n;i++){
+			x := x * i;
+			x := x * i;
+			x := x * i;
+		}
+	end;
+}

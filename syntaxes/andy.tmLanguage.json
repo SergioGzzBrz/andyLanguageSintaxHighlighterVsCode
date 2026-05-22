@@ -1,0 +1,119 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "andy",
+  "scopeName": "source.andy",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#keywords" },
+    { "include": "#types" },
+    { "include": "#constants" },
+    { "include": "#strings" },
+    { "include": "#functions" },
+    { "include": "#operators" },
+    { "include": "#variables" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.line.double-slash.andy",
+          "match": "//.*$"
+        },
+        {
+          "name": "comment.block.andy",
+          "begin": "/\\*",
+          "end": "\\*/"
+        }
+      ]
+    },
+    "keywords": {
+      "patterns": [
+        {
+          "name": "keyword.control.andy",
+          "match": "\\b(if|then|else|while|do|for|return|program|main|begin|end)\\b"
+        },
+        {
+          "name": "keyword.other.andy",
+          "match": "\\b(var|function)\\b"
+        },
+        {
+          "name": "keyword.operator.word.andy",
+          "match": "\\b(and|or|not)\\b"
+        }
+      ]
+    },
+    "types": {
+      "patterns": [
+        {
+          "name": "storage.type.andy",
+          "match": "\\b(int|float|bool|string|char|void)\\b"
+        }
+      ]
+    },
+    "constants": {
+      "patterns": [
+        {
+          "name": "constant.language.boolean.andy",
+          "match": "\\b(true|false)\\b"
+        },
+        {
+          "name": "constant.numeric.float.andy",
+          "match": "\\b[0-9]+\\.[0-9]+\\b"
+        },
+        {
+          "name": "constant.numeric.integer.andy",
+          "match": "\\b[0-9]+\\b"
+        }
+      ]
+    },
+    "strings": {
+      "name": "string.quoted.double.andy",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.andy",
+          "match": "\\\\."
+        }
+      ]
+    },
+    "functions": {
+      "patterns": [
+        {
+          "name": "support.function.builtin.andy",
+          "match": "\\b(write|writeln)\\b(?=\\s*\\()"
+        },
+        {
+          "match": "\\b([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+          "captures": {
+            "1": { "name": "entity.name.function.andy" }
+          }
+        }
+      ]
+    },
+    "operators": {
+      "patterns": [
+        {
+          "name": "keyword.operator.assignment.andy",
+          "match": ":=|="
+        },
+        {
+          "name": "keyword.operator.arithmetic.andy",
+          "match": "\\+|-|\\*|/|%|\\+\\+|--"
+        },
+        {
+          "name": "keyword.operator.comparison.andy",
+          "match": "<=|>=|==|!=|<|>"
+        }
+      ]
+    },
+    "variables": {
+      "patterns": [
+        {
+          "name": "variable.other.andy",
+          "match": "\\b[A-Za-z_][A-Za-z0-9_]*\\b"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,167 @@
+?start: program
+
+lex_start: lex_token*
+
+lex_token: PROGRAM | MAIN | VAR | PROCEDURE | BEGIN | END | IF | THEN | ELSE
+         | WHILE | DO | FOR | RETURN | WRITE | TRUE | FALSE
+         | INT_TYPE | FLOAT_TYPE | BOOL_TYPE | STRING_TYPE | CHAR_TYPE | VOID_TYPE
+         | AND | OR | NOT
+         | STRING_LIT | FLOAT_LIT | INT_LIT | ID
+         | ASSIGN | INC | DEC | LTE | GTE | EQEQ | NEQ | LT | GT | EQ
+         | PLUS | MINUS | STAR | SLASH | MOD
+         | LPAR | RPAR | LBRACE | RBRACE | LBRACK | RBRACK
+         | COLON | SEMICOLON | COMMA
+         | UNCLOSED_STRING | UNCLOSED_BLOCK_COMMENT
+
+// <Program>
+program: "program" "main" "{" var_declaration* procedure* "begin" ";" statement* "end" ";" "}"
+
+// <Var Declaration>
+var_declaration: "var" var_declarator ("," var_declarator)* ":" type ";"
+var_declarator: ID arr?
+
+// <Arr>
+arr: "[" expression "]"
+
+// <Type>
+type: INT_TYPE | FLOAT_TYPE | STRING_TYPE | CHAR_TYPE | BOOL_TYPE
+return_type: type | "void"
+
+// <Block>
+block: "{" statement* "}"
+
+// <Function>
+procedure: "function" ID procedure_signature function_block
+procedure_signature: "(" [parameter_list] ")" [":" return_type]
+parameter_list: parameter ("," parameter)*
+parameter: ID ":" type
+function_block: "{" "begin" ";" statement* "end" ";" "}"
+
+// <Statement>
+?statement: assignment
+          | if_stmt
+          | for_stmt
+          | while_stmt
+          | return_stmt
+          | expression ";" -> expr_stmt
+
+// <Assignment>
+assignment: assignment_expr ";"
+assignment_expr: variable ":=" expression
+
+// <If>
+if_stmt: "if" "(" expression ")" "then" block ["else" block]
+
+// <For>
+for_stmt: "for" "(" assignment_expr ";" expression ";" expression ")" block
+
+// <While>
+while_stmt: "while" "(" expression ")" "do" block
+
+// <Return>
+return_stmt: "return" [expression] ";"
+
+// <Expression>
+?expression: expression_a (cmp_op expression_a)*
+
+// <Expression A>
+?expression_a: expression_m (add_op expression_m)*
+
+// <Expression M>
+?expression_m: expression_u (mul_op expression_u)*
+
+// <Expression U>
+?expression_u: expression_un
+             | NOT expression_u -> not_expr
+             | MINUS expression_u -> neg_expr
+             | cte
+             | "(" expression ")"
+
+// <Expression UN>
+?expression_un: variable (INC | DEC)?
+              | function_call
+
+// <Function Call>
+function_call: (WRITE | variable) "(" [argument_list] ")"
+argument_list: expression ("," expression)*
+
+// <Variable>
+variable: ID arr?
+
+// <cte>
+cte: FLOAT_LIT | INT_LIT | STRING_LIT | TRUE | FALSE
+
+!cmp_op: ">" | "<" | ">=" | "<=" | "=" | "==" | "!="
+!add_op: "+" | "-" | "or"
+!mul_op: "*" | "/" | "%" | "and"
+
+
+PROGRAM: "program"
+MAIN: "main"
+VAR: "var"
+PROCEDURE: "function"
+BEGIN: "begin"
+END: "end"
+IF: "if"
+THEN: "then"
+ELSE: "else"
+WHILE: "while"
+DO: "do"
+FOR: "for"
+RETURN: "return"
+WRITE: "write" | "writeln"
+TRUE: "true"
+FALSE: "false"
+
+INT_TYPE: "int"
+FLOAT_TYPE: "float"
+BOOL_TYPE: "bool"
+STRING_TYPE: "string"
+CHAR_TYPE: "char"
+VOID_TYPE: "void"
+
+AND: "and"
+OR: "or"
+NOT: "not"
+
+STRING_LIT.4: /"(?:\\.|[^"\\\r\n])*"/
+FLOAT_LIT: /[0-9]+\.[0-9]+/
+INT_LIT: /[0-9]+/
+ID: /[A-Za-z_][A-Za-z0-9_]*/
+
+ASSIGN: ":="
+INC: "++"
+DEC: "--"
+LTE: "<="
+GTE: ">="
+EQEQ: "=="
+NEQ: "!="
+LT: "<"
+GT: ">"
+EQ: "="
+PLUS: "+"
+MINUS: "-"
+STAR: "*"
+SLASH: "/"
+MOD: "%"
+
+LPAR: "("
+RPAR: ")"
+LBRACE: "{"
+RBRACE: "}"
+LBRACK: "["
+RBRACK: "]"
+COLON: ":"
+SEMICOLON: ";"
+COMMA: ","
+
+UNCLOSED_STRING.3: /"(?:\\.|[^"\\\r\n])*(?=\r?\n|$)/
+UNCLOSED_BLOCK_COMMENT.3: /\/\*[\s\S]*/
+
+LINE_COMMENT.20: /\/\/[^\r\n]*/
+BLOCK_COMMENT.20: /\/\*[\s\S]*?\*\//
+
+%import common.WS
+%ignore WS
+%ignore LINE_COMMENT
+%ignore BLOCK_COMMENT
